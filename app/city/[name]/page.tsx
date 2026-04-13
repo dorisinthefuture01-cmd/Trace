@@ -19,6 +19,9 @@ export async function generateStaticParams() {
   return citySlugs.map(slug => ({ name: slug }));
 }
 
+// 强制设置为静态页面
+export const dynamic = 'force-static';
+
 export default async function CityPage({ params }: Props) {
   const { name } = await params;
   const slug = decodeURIComponent(name);

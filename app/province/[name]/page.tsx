@@ -18,6 +18,9 @@ export async function generateStaticParams() {
   return provinceSlugs.map(slug => ({ name: slug }));
 }
 
+// 强制设置为静态页面
+export const dynamic = 'force-static';
+
 export default async function ProvincePage({ params }: Props) {
   const { name } = await params;
   if (!isValidProvinceSlug(name)) {

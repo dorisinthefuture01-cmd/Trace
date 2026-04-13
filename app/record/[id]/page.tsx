@@ -15,6 +15,9 @@ export async function generateStaticParams() {
   return mockRecords.map(record => ({ id: record.id }));
 }
 
+// 强制设置为静态页面
+export const dynamic = 'force-static';
+
 export default async function RecordPage({ params }: Props) {
   const { id } = await params;
   const record = await fetchRecordById(id);
