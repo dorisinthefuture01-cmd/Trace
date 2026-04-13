@@ -1,14 +1,19 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { fetchRecordById } from "@/lib/api";
 import { formatRecordDate } from "@/lib/dateFormat";
 import { getCityLabelZh } from "@/lib/areasRegistry";
 import { getProvinceLabel } from "@/lib/provinceMeta";
+import { mockRecords } from "@/lib/mockData";
 
 type Props = {
   params: Promise<{ id: string }>;
 };
+
+export async function generateStaticParams() {
+  // 从 mockRecords 中获取所有记录的 id
+  return mockRecords.map(record => ({ id: record.id }));
+}
 
 export default async function RecordPage({ params }: Props) {
   const { id } = await params;
@@ -50,13 +55,10 @@ export default async function RecordPage({ params }: Props) {
                 key={`${img.url}-${i}`}
                 className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-neutral-300 bg-white"
               >
-                <Image
+                <img
                   src={img.url}
                   alt={img.alt ?? `${record.title} ${i + 1}`}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 512px) 100vw, 480px"
-                  priority={i === 0}
+                  className="w-full h-full object-cover"
                 />
               </div>
             ))}

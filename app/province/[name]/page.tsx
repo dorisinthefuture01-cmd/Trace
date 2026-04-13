@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CityList } from "@/components/CityList";
 import { fetchCitiesForProvince } from "@/lib/api";
 import { getProvinceLabel, isValidProvinceSlug } from "@/lib/provinceMeta";
+import { getVisitedProvinceSlugsFromMock } from "@/lib/mockData";
 
 type Props = {
   params: Promise<{ name: string }>;
@@ -10,6 +11,12 @@ type Props = {
 
 const btnGhost =
   "inline-flex rounded-lg border border-neutral-300 bg-white px-8 py-2.5 text-[14px] font-medium text-neutral-800 transition hover:bg-neutral-50";
+
+export async function generateStaticParams() {
+  // 从 mockData 中获取所有已访问省份的 slug
+  const provinceSlugs = getVisitedProvinceSlugsFromMock();
+  return provinceSlugs.map(slug => ({ name: slug }));
+}
 
 export default async function ProvincePage({ params }: Props) {
   const { name } = await params;
